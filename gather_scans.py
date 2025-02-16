@@ -26,6 +26,7 @@ def scan_network():
 
         # Log to CSV
         log_scan_result(current_time, mac_address, channel, rssi)
+        print(f"Scan complete at {current_time}")
 
 # Run the network scan and log the results
 scan_network()
