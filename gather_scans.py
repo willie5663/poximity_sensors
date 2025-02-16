@@ -1,30 +1,34 @@
 import network
-import ustruct
 import time
 
 # Function to log the scan results to a CSV file
 def log_scan_result(scan_time, mac_address, channel, rssi):
-    with open('scan_log.csv', 'a') as csvfile:
-        writer = csvfile.write(f"{scan_time}, {mac_address}, {channel}, {rssi}\n")
+    with open('scan_log.csv', 'a') as csvfile:  # Open in append mode
+        csvfile.write(f"{scan_time},{mac_address},{channel},{rssi}\n")  # Write data directly
 
-# Function to perform the scan
+# Function to perform the scan continuously
 def scan_network():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
 
-    # Perform WiFi scan
-    networks = wlan.scan()
+    while True:  # Infinite loop to keep scanning
+        current_time = time.time()  # Get time since boot
 
-    # Log each found network to the CSV
-    for network in networks:
-        mac_address = ':'.join(['{:02X}'.format(byte) for byte in network[1]])  # Convert the byte array to MAC address
-        channel = network[2]
-        rssi = network[3]  # RSSI value is the 4th element
-        current_time = time.time()
+        print(f"Scanning at {current_time}...")  # Print before each scan
+        networks = wlan.scan()  # Perform WiFi scan
 
-        # Log to CSV
-        log_scan_result(current_time, mac_address, channel, rssi)
-        print(f"Scan complete at {current_time}")
+        # Log each found network to the CSV
+        for network in networks:
+            mac_address = ':'.join(['{:02X}'.format(byte) for byte in network[1]])  # Convert bytes to MAC address
+            channel = network[2]
+            rssi = network[3]  # RSSI value
 
-# Run the network scan and log the results
+            # Log to CSV
+            log_scan_result(current_time, mac_address, channel, rssi)
+
+        print(f"Scan complete at {current_time}, {len(networks)} devices found.")  
+
+        time.sleep(5)  # Wait 5 seconds before scanning again (adjust as needed)
+
+# Run the continuous network scan
 scan_network()
