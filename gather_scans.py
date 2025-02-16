@@ -3,9 +3,9 @@ import ustruct
 import time
 
 # Function to log the scan results to a CSV file
-def log_scan_result(mac_address, channel, rssi):
+def log_scan_result(scan_time, mac_address, channel, rssi):
     with open('scan_log.csv', 'a') as csvfile:
-        writer = csvfile.write(f"{mac_address}, {channel}, {rssi}\n")
+        writer = csvfile.write(f"{scan_time}, {mac_address}, {channel}, {rssi}\n")
 
 # Function to perform the scan
 def scan_network():
