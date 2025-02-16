@@ -12,9 +12,6 @@ def scan_network():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
 
-    # get the current time
-    current_time = time.time()
-
     # Perform WiFi scan
     networks = wlan.scan()
 
@@ -23,6 +20,7 @@ def scan_network():
         mac_address = ':'.join(['{:02X}'.format(byte) for byte in network[1]])  # Convert the byte array to MAC address
         channel = network[2]
         rssi = network[3]  # RSSI value is the 4th element
+        current_time = time.time()
 
         # Log to CSV
         log_scan_result(current_time, mac_address, channel, rssi)
