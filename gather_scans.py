@@ -18,15 +18,15 @@ def scan_network():
         networks = wlan.scan()  # Perform WiFi scan
 
         # Log each found network to the CSV
-        for network in networks:
-            mac_address = ':'.join(['{:02X}'.format(byte) for byte in network[1]])  # Convert bytes to MAC address
-            channel = network[2]
-            rssi = network[3]  # RSSI value
+        for net in networks:
+            mac_address = ':'.join(['{:02X}'.format(byte) for byte in net[1]])  # Convert bytes to MAC address
+            channel = net[2]
+            rssi = net[3]  # RSSI value
 
             # Log to CSV
             log_scan_result(current_time, mac_address, channel, rssi)
 
-        print(f"Scan complete at {current_time}, {len(networks)} devices found.")  
+        print(f"Scan complete at {current_time}, {len(net)} devices found.")  
 
         time.sleep(5)  # Wait 5 seconds before scanning again (adjust as needed)
 
